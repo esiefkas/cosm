@@ -1,0 +1,137 @@
+(ns cosm.core
+    (:require [reagent.core :as r :refer [atom]]
+              [secretary.core :as secretary :include-macros true]
+              [accountant.core :as accountant]
+              [cljsjs.material-ui]
+              [cljs-react-material-ui.core :refer [get-mui-theme color]]
+              [cljs-react-material-ui.reagent :as ui]
+              [cljs-react-material-ui.icons :as ic]))
+
+;; -------------------------
+;; Views
+
+(def co-blue "#102E82")
+(def co-yellow "#F6D047")
+(def co-red "#BF2C34")
+
+(defn logo []
+  [:div {:style {:width "223px"
+                 :height "65px"
+                 :background-color "#FFFFFF"}}
+   [:img {:src "https://static.wixstatic.com/media/116575_cc70b86da0714afb9c37f3baac6a5f5a~mv2.png/v1/fill/w_1200,h_349,al_c,lg_1/116575_cc70b86da0714afb9c37f3baac6a5f5a~mv2.png"
+          :height "65px"
+          :style {:padding-top "10px"}}]])
+
+(defn login-button []
+  [ui/raised-button
+   {:style {:margin "auto"
+            :min-width "80px"
+            :width "30%"
+            :height "36px"}}
+   [:div {:style {:display "flex"
+                  :align-items "center"
+                  :height "36px"}}
+    [:i {:class "material-icons"} "account_circle"]
+    "Log In"]])
+
+(defn register-button []
+  [ui/raised-button  {:secondary true 
+                      :style {:margin "auto" 
+                              :min-width "80px"
+                              :height "36px"
+                              :width "30%"}}
+   [:div {:style {:display "flex"
+                  :align-items "center"
+                  :height "36px"}}
+    [:i {:class "material-icons"} "assignment"]
+    "Sign Up"]
+   
+   ])
+
+
+
+(defn main-menu-button-ph [name]
+  [ui/flat-button {:style {:height "100%"
+                           :width "100%"}}
+   name])
+
+(defn logged-out-control-panel []
+  [ui/toolbar-group {:style {:width "15%"
+                             :font-size "0.66em"}}
+   [:div {:style {:height "85px"
+                  :width "100%" 
+                  :background-color co-blue
+                  :text-color "#FFFFFF"
+                  :text-align "center"
+                  :display "flex"}}
+    [login-button]
+    [register-button]
+    ]])
+
+(defn main-nav []
+  [ui/toolbar {:title "Colorado Supermoto"
+               :style {:width "90%"
+                       :height "85px"
+                       :margin "auto"
+                       :z-index "1000"
+                       :background-color "#212121"
+                       :padding-right 0}}
+   [logo]
+   [ui/toolbar-group
+    {:style {:width "55%"}}
+    [main-menu-button-ph "SCHEDULE"]
+    [main-menu-button-ph "RULE BOOK"]
+    [main-menu-button-ph "CLASSES"]
+    [main-menu-button-ph "TRACKS"]
+    [main-menu-button-ph "STANDINGS"]]
+   [logged-out-control-panel]])
+
+(defn home-page []
+  [ui/mui-theme-provider
+   {:mui-theme (get-mui-theme
+                {:palette {:text-color (color :white)
+                           :primary-1-color co-blue
+                           :accent-1-color co-yellow
+                           }
+                 :fontFamily "Encode Sans Expanded"})}
+   [:div
+    [main-nav]
+    [:img {:src "https://scontent.fapa1-1.fna.fbcdn.net/v/t31.0-8/21993034_1733862726655647_7860000715063099826_o.jpg?oh=ec21041445bb691a640a69520ea9d16a&oe=5B0B1614"
+           :style {:margin-top "-300px"
+                   :z-index "-10000"
+                   :width "100%"
+                   :position "absolute"}}]]])
+
+(defn about-page []
+  [:div "NOT HERE!"])
+
+;; -------------------------
+;; Routes
+
+(defonce page (atom #'home-page))
+
+(defn current-page []
+  [:div [@page]])
+
+(secretary/defroute "/" []
+  (reset! page #'home-page))
+
+(secretary/defroute "/about" []
+  (reset! page #'about-page))
+
+;; -------------------------
+;; Initialize app
+
+(defn mount-root []
+  (r/render [current-page] (.getElementById js/document "app")))
+
+(defn init! []
+  (accountant/configure-navigation!
+    {:nav-handler
+     (fn [path]
+       (secretary/dispatch! path))
+     :path-exists?
+     (fn [path]
+       (secretary/locate-route path))})
+  (accountant/dispatch-current!)
+  (mount-root))
