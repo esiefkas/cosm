@@ -32,10 +32,15 @@
 
 
 (defroutes routes
+  ;;Front end routes
   (GET "/" [] (loading-page))
   (GET "/about" [] (loading-page))
   
   (resources "/")
-  (not-found "Not Found"))
+  (not-found "Not Found")
+
+  ;;Back end routes
+  ;;(GET "/riders")
+  )
 
 (def app (wrap-middleware #'routes))

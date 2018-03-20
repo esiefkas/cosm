@@ -20,7 +20,8 @@
                   :exclusions [org.clojure/tools.reader]]
                  [cljs-react-material-ui "0.2.48"]
                  [cljsjs/react "15.6.1-1"]
-                 [cljsjs/react-dom "15.6.1-1"]]
+                 [cljsjs/react-dom "15.6.1-1"]
+                 [com.datomic/datomic-pro "0.9.5661"]]
 
   :plugins [[lein-environ "1.1.0"]
             [lein-cljsbuild "1.1.7"]
@@ -41,7 +42,7 @@
    [:cljsbuild :builds :app :compiler :output-dir]
    [:cljsbuild :builds :app :compiler :output-to]]
 
-  :source-paths ["src/clj" "src/cljc"]
+  :source-paths ["src/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
 
   :minify-assets
@@ -50,7 +51,7 @@
 
   :cljsbuild
   {:builds {:min
-            {:source-paths ["src/cljs" "src/cljc" "env/prod/cljs"]
+            {:source-paths ["src/cljs" "env/prod/cljs"]
              :compiler
              {:output-to        "target/cljsbuild/public/js/app.js"
               :output-dir       "target/cljsbuild/public/js"
@@ -58,7 +59,7 @@
               :optimizations :advanced
               :pretty-print  false}}
             :app
-            {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
+            {:source-paths ["src/cljs" "env/dev/cljs"]
              :figwheel {:on-jsload "cosm.core/mount-root"}
              :compiler
              {:main "cosm.dev"
@@ -114,4 +115,7 @@
                        :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
                        :env {:production true}
                        :aot :all
-                       :omit-source true}})
+                       :omit-source true}}
+
+  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"}}
+  )
