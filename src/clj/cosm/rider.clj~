@@ -1,4 +1,0 @@
-(ns cosm.rider)
-
-(defn rider-handler [request]
-  )
