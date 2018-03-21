@@ -15,13 +15,15 @@
                  [yogthos/config "1.1"]
                  [org.clojure/clojurescript "1.9.946"
                   :scope "provided"]
+                 [cljs-http "0.1.44"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
                  [cljs-react-material-ui "0.2.48"]
                  [cljsjs/react "15.6.1-1"]
                  [cljsjs/react-dom "15.6.1-1"]
-                 [com.datomic/datomic-pro "0.9.5661"]]
+                 [com.datomic/datomic-pro "0.9.5661"
+                  :exclusions [com.google.guava/guava]]]
 
   :plugins [[lein-environ "1.1.0"]
             [lein-cljsbuild "1.1.7"]
@@ -68,14 +70,7 @@
               :output-dir "target/cljsbuild/public/js/out"
               :source-map true
               :optimizations :none
-              :pretty-print  true}}
-
-
-
-            }
-   }
-
-
+              :pretty-print  true}}}} 
   :figwheel
   {:http-server-root "public"
    :server-port 3449
@@ -117,5 +112,4 @@
                        :aot :all
                        :omit-source true}}
 
-  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"}}
-  )
+  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"}})

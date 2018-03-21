@@ -3,7 +3,8 @@
             [compojure.route :refer [not-found resources]]
             [hiccup.page :refer [include-js include-css html5]]
             [cosm.middleware :refer [wrap-middleware]]
-            [config.core :refer [env]]))
+            [config.core :refer [env]]
+            [cosm.rider :as rider]))
 
 (def mount-target
   [:div#app
@@ -31,6 +32,7 @@
      (include-js "/js/app.js")]))
 
 
+
 (defroutes routes
   ;;Front end routes
   (GET "/" [] (loading-page))
@@ -40,7 +42,7 @@
   (not-found "Not Found")
 
   ;;Back end routes
-  ;;(GET "/riders")
+  (GET "/riders" request (rider/handler request))
   )
 
 (def app (wrap-middleware #'routes))
