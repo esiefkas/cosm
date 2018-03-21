@@ -37,12 +37,9 @@
   ;;Front end routes
   (GET "/" [] (loading-page))
   (GET "/about" [] (loading-page))
-  
-  (resources "/")
-  (not-found "Not Found")
-
   ;;Back end routes
   (GET "/riders" request (rider/handler request))
-  )
+  (resources "/")
+  (not-found "Not Found"))
 
 (def app (wrap-middleware #'routes))

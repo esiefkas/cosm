@@ -5,12 +5,14 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/core.async "0.4.474"]
                  [ring-server "0.5.0"]
                  [reagent "0.7.0"]
                  [reagent-utils "0.3.1"]
                  [ring "1.6.3"]
                  [ring/ring-defaults "0.3.1"]
                  [compojure "1.6.0"]
+                 [ring-middleware-format "0.7.2"]
                  [hiccup "1.0.5"]
                  [yogthos/config "1.1"]
                  [org.clojure/clojurescript "1.9.946"

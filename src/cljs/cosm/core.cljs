@@ -1,12 +1,21 @@
 (ns cosm.core
-    (:require [reagent.core :as r :refer [atom]]
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [reagent.core :as r :refer [atom]]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
               [cljsjs.material-ui]
               [cljs-react-material-ui.core :refer [get-mui-theme color]]
               [cljs-react-material-ui.reagent :as ui]
-              [cljs-react-material-ui.icons :as ic]))
+              [cljs-react-material-ui.icons :as ic]
+              [cljs-http.client :as http]
+              [cljs.core.async :refer [<!]]))
 
+
+(defn call-backend-test []
+  )
+
+(defn print-a-thing []
+  (println "herrroo"))
 ;; -------------------------
 ;; Views
 
@@ -155,6 +164,19 @@
                     :height "50px"
                     :width "100%"}} "Copyright Lambda Technologies and Colorado Supermoto Series 2018"])
 
+;;BACK END TEST
+(def riders (atom []))
+
+(defn update-riders! []
+  (go (let [response (<! (http/get "/riders"))] 
+        (reset! riders (:body response)))))
+
+(defn back-end-data-test []
+  (update-riders!)
+  (fn []
+    [:div (str @riders)])
+  )
+
 (defn home-page []
   [ui/mui-theme-provider
    {:mui-theme
@@ -166,7 +188,8 @@
    [:div
     [main-nav]
     [news-reel]
-    [front-page-schedule]]])
+    [front-page-schedule]
+    ]])
 
 (defn about-page []
   [:div "NOT HERE!"])
