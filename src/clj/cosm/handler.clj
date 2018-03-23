@@ -38,7 +38,7 @@
   (GET "/" [] (loading-page))
   (GET "/about" [] (loading-page))
   ;;Back end routes
-  (GET "/riders" request (rider/handler request))
+  (GET "/api/riders" request (rider/handler request))
   (resources "/")
   (not-found "Not Found"))
 

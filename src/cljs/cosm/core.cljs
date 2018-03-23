@@ -8,14 +8,11 @@
               [cljs-react-material-ui.reagent :as ui]
               [cljs-react-material-ui.icons :as ic]
               [cljs-http.client :as http]
-              [cljs.core.async :refer [<!]]))
+              [cljs.core.async :refer [<!]]
+              [goog.events :as events]
+              [goog.history.EventType :as EventType])
+  (:import goog.History))
 
-
-(defn call-backend-test []
-  )
-
-(defn print-a-thing []
-  (println "herrroo"))
 ;; -------------------------
 ;; Views
 
@@ -24,11 +21,17 @@
 (def co-red "#BF2C34")
 (def menu-grey "#212121")
 
+#_(let [h (History.)]
+  (goog.events/listen h EventType/NAVIGATE #(secretary/dispatch! (.-token %)))
+  (doto h (.setEnabled true)))
+
 ;;TODO: Fix this image 
 (defn logo []
   [:div {:style {:width "223px"
                  :height "65px"
-                 :background-color "#FFFFFF"}}
+                 :background-color "#FFFFFF"
+                 :cursor "pointer"}
+         :on-click (fn [_] (accountant/navigate! "/"))}
    [:img {:src "https://static.wixstatic.com/media/116575_cc70b86da0714afb9c37f3baac6a5f5a~mv2.png/v1/fill/w_1200,h_349,al_c,lg_1/116575_cc70b86da0714afb9c37f3baac6a5f5a~mv2.png"
           :height "65px"
           :style {:padding-top "10px"}}]])
@@ -59,9 +62,13 @@
     "Sign Up"]])
 
 (defn main-menu-button-ph [name]
-  [ui/flat-button {:style {:height "100%"
+  [ui/flat-button {:style {:color "#FFFFFF"
+                           :height "100%"
                            :width "100%"}}
    name])
+
+(defn navigate [uri]
+  (set! (.-location js/document) uri))
 
 (defn logged-out-control-panel []
   [ui/toolbar-group {:style {:width "15%"
@@ -77,6 +84,13 @@
     [login-button]
     [register-button]]])
 
+(defn riders-main-menu-button []
+  [ui/flat-button {:style {:color "#FFFFFF"
+                           :height "100%"
+                           :width "100%"}
+                   :on-click (fn [_] (accountant/navigate! "/riders"))}
+   "RIDERS"])
+
 (defn main-nav []
   [ui/toolbar {:title "Colorado Supermoto"
                :style {:width "90%"
@@ -88,11 +102,11 @@
    [logo]
    [ui/toolbar-group
     {:style {:width "55%"}}
-    [main-menu-button-ph "SCHEDULE"]
+    [main-menu-button-ph "RACES"]
     [main-menu-button-ph "RULE BOOK"]
     [main-menu-button-ph "CLASSES"]
     [main-menu-button-ph "TRACKS"]
-    [main-menu-button-ph "STANDINGS"]]
+    [riders-main-menu-button]]
    [logged-out-control-panel]])
 
 (defn stepper-example []
@@ -162,37 +176,50 @@
                     :text-align "center"
                     :color "#FFFFFF"
                     :height "50px"
-                    :width "100%"}} "Copyright Lambda Technologies and Colorado Supermoto Series 2018"])
+                    :width "100%"}}
+   "Copyright Lambda Technologies and Colorado Supermoto Series 2018"])
 
 ;;BACK END TEST
 (def riders (atom []))
 
 (defn update-riders! []
-  (go (let [response (<! (http/get "/riders"))] 
+  (go (let [response (<! (http/get "/api/riders"))] 
         (reset! riders (:body response)))))
 
-(defn back-end-data-test []
+(defn rider->display-name [rider]
+  (str (when (:rider/first-name rider)
+         (str (:rider/first-name rider) " "))
+       (:rider/last-name rider)))
+
+(defn rider-row [rider]
+  [ui/table-row
+   [ui/table-row-column [:span {:style {:color "#000000"}} (:rider/race-number rider)]]
+   [ui/table-row-column {} (rider->display-name rider)]])
+
+(defn rider-table []
   (update-riders!)
   (fn []
-    [:div (str @riders)])
-  )
+    [:div {:style {:width "50%"
+                   :color "#000000"}}
+     [ui/table {:style {}}
+      [ui/table-header {}
+       [ui/table-row {}
+        [ui/table-header-column {} "Race Number"]
+        [ui/table-header-column {} "Name"]]]
+      [ui/table-body {}
+       (doall (map rider-row @riders))]]]))
 
 (defn home-page []
-  [ui/mui-theme-provider
-   {:mui-theme
-    (get-mui-theme
-     {:palette {:text-color (color :white)
-                :primary-1-color co-blue
-                :accent-1-color co-yellow}
-      :fontFamily "Encode Sans Expanded"})} 
-   [:div
-    [main-nav]
-    [news-reel]
-    [front-page-schedule]
-    ]])
+  [:div
+   [news-reel]
+   [front-page-schedule]])
+
+(defn rider-page []
+  [:div {}
+   [rider-table]])
 
 (defn about-page []
-  [:div "NOT HERE!"])
+  [:div "NOT HERE!!!!!!BALLS"])
 
 ;; -------------------------
 ;; Routes
@@ -200,8 +227,17 @@
 (defonce page (atom #'home-page))
 
 (defn current-page []
-  [:div [@page]
-   [footer]])
+  [ui/mui-theme-provider
+   {:mui-theme
+    (get-mui-theme
+     {:palette {;;:text-color (color :white)
+                :primary-1-color co-blue
+                :accent-1-color co-yellow}
+      :fontFamily "Encode Sans Expanded"})} 
+   [:div
+    [main-nav]
+    [@page]
+    [footer]]])
 
 (secretary/defroute "/" []
   (reset! page #'home-page))
@@ -209,6 +245,8 @@
 (secretary/defroute "/about" []
   (reset! page #'about-page))
 
+(secretary/defroute "/riders" []
+  (reset! page #'rider-page))
 ;; -------------------------
 ;; Initialize app
 
