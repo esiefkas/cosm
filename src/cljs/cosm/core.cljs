@@ -37,8 +37,7 @@
   [:div [ui/mui-theme-provider
          {:mui-theme
           (get-mui-theme
-           {:palette { ;;:text-color (color :white)
-                      :primary-1-color theme/co-blue
+           {:palette {:primary-1-color theme/co-blue
                       :accent-1-color theme/co-yellow}
             :fontFamily "Encode Sans Expanded"})} 
          [:div

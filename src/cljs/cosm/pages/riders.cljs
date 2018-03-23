@@ -1,6 +1,8 @@
 (ns cosm.pages.riders
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [reagent.core :as r :refer [atom]]
+   [cljs.core.async :refer [<!]]
    [cljs-react-material-ui.reagent :as ui]
    [cljs-http.client :as http]
    [cljsjs.material-ui]))
