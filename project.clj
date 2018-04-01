@@ -25,6 +25,8 @@
                  [cljs-react-material-ui "0.2.48"]
                  [cljsjs/react "15.6.1-1"]
                  [cljsjs/react-dom "15.6.1-1"]
+                 [buddy/buddy-hashers "1.3.0"]
+                 [buddy/buddy-auth "2.1.0"]
                  [com.datomic/datomic-pro "0.9.5661"
                   :exclusions [com.google.guava/guava]]]
 

@@ -9,7 +9,7 @@
  (defn -main [& args]
    (let [port (Integer/parseInt (or (env :port) "3000"))]
      (datomic/start-datomic)
-     (run-jetty app {:port port :join? false})))
+     (run-jetty app {:port port :join? false :ssl? true})))
 
 
    

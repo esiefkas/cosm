@@ -16,7 +16,8 @@
   (d/transact @datomic-conn (map (partial bs/add-type :rider) bs/riders))
   (d/transact @datomic-conn (map (partial bs/add-type :class) bs/classes))
   (d/transact @datomic-conn (map (partial bs/add-type :track) bs/tracks))
-  (d/transact @datomic-conn (map (partial bs/add-type :race) bs/races)))
+  (d/transact @datomic-conn (map (partial bs/add-type :race) bs/races))
+  (d/transact @datomic-conn (map (partial bs/add-type :user) bs/users)))
 
 (defn get-all-of-type [type]
   (let [db (d/db @datomic-conn)]
@@ -32,5 +33,14 @@
            :where
            [?f :finish/place 1]
            [?f :finish/racer ?r]] db)))
+
+(defn uname->encrypted-pw [username]
+  (let [db (d/db @datomic-conn)]
+    (d/q '[:find ?pw .
+           :in $ ?uname
+           :where
+           [?u :user/username ?uname]
+           [?u :user/password ?pw]]
+         db username)))
 
 

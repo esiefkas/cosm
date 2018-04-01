@@ -7,7 +7,7 @@
    [cljs-http.client :as http]
    [cljsjs.material-ui]))
 
-(def riders (atom []))
+(defonce riders (atom []))
 
 (defn update-riders! []
   (go (let [response (<! (http/get "/api/riders"))] 

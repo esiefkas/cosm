@@ -4,6 +4,8 @@
             [cosm.datomic :as cd]))
 
 (defn handler [request]
+  (println "IN RIDER HANDLER")
+  (spit "riderout.txt" request)
   (let [db (d/db @cd/datomic-conn)
         raw-datomic-response
         (d/q '[:find [(pull ?e [*]) ...]

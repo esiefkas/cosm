@@ -7,8 +7,6 @@
 (defn add-type [type m]
   (assoc m :cosm/type type))
 
-(defn add-tempid [m]
-  (assoc m :db/id (d/tempid :db.part/user)))
 ;;TODO: add brand icons
 (def bike-makes
   [{:display-name "Honda" :db/ident :honda}
@@ -376,3 +374,11 @@
     :race/venue :imi}
    {:race/date #inst "2018-09-23"
     :race/venue :imi}])
+
+(def users
+  [{:user/username "channelzero"
+    :user/password "bcrypt+sha512$26ad41d2ed71eadfc388cf145f21a8f0$12$b6219bfa72ac6f0fcce770e06d105d239c820e740f1bfdfd"
+    :user/admin true
+    :user/rider [:rider/race-number 955]}
+   {:user/username "userMcUserFace"
+    :user/password "bcrypt+sha512$aeb3bc27719d311a4fca36968aa8c30c$12$7d7fdbaeca012ca3c2ea268ff98f3dc0a46716a382e85c62"}])

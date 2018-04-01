@@ -1,10 +1,11 @@
 (ns cosm.handler
-  (:require [compojure.core :refer [GET defroutes]]
+  (:require [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [hiccup.page :refer [include-js include-css html5]]
             [cosm.middleware :refer [wrap-middleware]]
             [config.core :refer [env]]
-            [cosm.rider :as rider]))
+            [cosm.rider :as rider]
+            [cosm.auth :as auth]))
 
 (def mount-target
   [:div#app
@@ -39,6 +40,10 @@
   (GET "/about" [] (loading-page))
   ;;Back end routes
   (GET "/api/riders" request (rider/handler request))
+  (GET "/api/user/current" request (auth/current-user-handler request))
+  (POST "/api/login" request (auth/login-handler request))
+  (POST "/api/logout" request (auth/logout-handler request))
+  
   (resources "/")
   (not-found "Not Found"))
 

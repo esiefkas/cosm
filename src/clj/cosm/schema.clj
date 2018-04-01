@@ -5,7 +5,8 @@
    {:db/ident :track}
    {:db/ident :class}
    {:db/ident :rider}
-   {:db/ident :race}])
+   {:db/ident :race}
+   {:db/ident :user}])
 
 (def motos
   [{:db/ident :moto1}
@@ -136,6 +137,20 @@
             :db/valueType :db.type/ref
             :db/cardinality :db.cardinality/one}])
 
+(def user
+  [{:db/ident :user/username
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :user/password
+    :db/valueType :db.type/string
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :user/rider
+    :db/valueType :db.type/ref
+    :db/cardinality :db.cardinality/one}
+   {:db/ident :user/admin
+    :db/valueType :db.type/boolean
+    :db/cardinality :db.cardinality/one}])
+
 (def full-schema
   (concat
    race
@@ -145,4 +160,5 @@
    make
    globals
    types
-   motos))
+   motos
+   user))
