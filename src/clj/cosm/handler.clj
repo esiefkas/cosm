@@ -5,6 +5,7 @@
             [cosm.middleware :refer [wrap-middleware]]
             [config.core :refer [env]]
             [cosm.rider :as rider]
+            [cosm.race-query :as rq]
             [cosm.auth :as auth]))
 
 (def mount-target
@@ -32,6 +33,7 @@
      mount-target
      (include-js "/js/app.js")]))
 
+;;race api
 
 
 (defroutes routes
@@ -39,6 +41,8 @@
   (GET "/" [] (loading-page))
   (GET "/about" [] (loading-page))
   ;;Back end routes
+  (GET "/api/races" [year :as request]
+       (rq/handler request))
   (GET "/api/riders" request (rider/handler request))
   (GET "/api/user/current" request (auth/current-user-handler request))
   (POST "/api/login" request (auth/login-handler request))

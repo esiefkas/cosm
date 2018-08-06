@@ -67,5 +67,4 @@
      :path-exists?
      (fn [path]
        (secretary/locate-route path))})
-  (accountant/dispatch-current!)
-  (mount-root))
+  (accountant/dispatch-current!)  (mount-root))

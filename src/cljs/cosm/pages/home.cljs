@@ -46,7 +46,7 @@
 
 (defn news-reel []
   [:div
-   [:img {:src "https://scontent.fapa1-1.fna.fbcdn.net/v/t31.0-8/21993034_1733862726655647_7860000715063099826_o.jpg?oh=ec21041445bb691a640a69520ea9d16a&oe=5B0B1614"
+   [:img {:src "https://scontent.fapa1-2.fna.fbcdn.net/v/t31.0-8/21993034_1733862726655647_7860000715063099826_o.jpg?_nc_cat=0&_nc_eui2=AeFL1CYg5qB0lnAWCJXEahGzYGiXKEH1K-cuonjrIKkSVgfHBLfvGqGBirflGvSPere5c3M2eMH6HOHEwUQsBxtAnSidQ8haVT2mO7ox1PUcXQ&oh=5c9f29908888ba74389e946d93992932&oe=5BD0D714"
           :style {:margin-top "-300px"
                   :z-index "-10000"
                   :width "100%"

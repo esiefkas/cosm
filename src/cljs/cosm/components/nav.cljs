@@ -67,7 +67,7 @@
 
 (defn get-current-user! []
   (go (let [response (<! (http/get "/api/user/current"))]
-        (if (= 200 (:statusk response))
+        (if (= 200 (:status response))
           (reset! current-user (:body response))
           (do (println response)
               (reset! current-user nil))))))
@@ -170,11 +170,13 @@
            [logo]
            [ui/toolbar-group
             {:style {:width "55%"}}
-            [main-menu-button-ph "RACES"]
-            [main-menu-button-ph "RULE BOOK"]
+            [main-menu-button-ph "SCHEDULE"]
+            [main-menu-button-ph "RESULTS"]
             [main-menu-button-ph "CLASSES"]
             [main-menu-button-ph "TRACKS"]
-            [riders-main-menu-button]]
+            [main-menu-button-ph "ABOUT"]
+            [riders-main-menu-button]
+            ]
            (if-let [cu @current-user]
              [control-panel cu]
              [logged-out-control-panel])]

@@ -27,6 +27,7 @@
                  [cljsjs/react-dom "15.6.1-1"]
                  [buddy/buddy-hashers "1.3.0"]
                  [buddy/buddy-auth "2.1.0"]
+                 [clj-time "0.14.4"]
                  [com.datomic/datomic-pro "0.9.5661"
                   :exclusions [com.google.guava/guava]]]
 
@@ -80,29 +81,27 @@
   {:http-server-root "public"
    :server-port 3449
    :nrepl-port 7002
-   :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"
-                      ]
+   :nrepl-middleware ["cider.piggieback/wrap-cljs-repl"]
    :css-dirs ["resources/public/css"]
    :ring-handler cosm.handler/app}
 
 
-
-  :profiles {:dev {:repl-options {:init-ns cosm.repl
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+  :profiles {:dev {:repl-options {:init-ns cosm.server
+                                  :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
 
                    :dependencies [[binaryage/devtools "0.9.9"]
                                   [ring/ring-mock "0.3.2"]
                                   [ring/ring-devel "1.6.3"]
                                   [prone "1.5.0"]
-                                  [figwheel-sidecar "0.5.15"]
+                                  [figwheel-sidecar "0.5.16"]
                                   [org.clojure/tools.nrepl "0.2.13"]
-                                  [com.cemerick/piggieback "0.2.2"]
+                                  [cider/piggieback "0.3.6"]
                                   [pjstadig/humane-test-output "0.8.3"]
                                   
  ]
 
                    :source-paths ["env/dev/clj"]
-                   :plugins [[lein-figwheel "0.5.15"]
+                   :plugins [[lein-figwheel "0.5.16"]
 ]
 
                    :injections [(require 'pjstadig.humane-test-output)
@@ -117,4 +116,6 @@
                        :aot :all
                        :omit-source true}}
 
-  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"}})
+  :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
+                                   :username "thesiefkas@gmail.com"
+                                   :password "ebc26a82-6ee4-43f2-87cc-6aaf28607d7b"}})
