@@ -42,7 +42,7 @@
   (GET "/about" [] (loading-page))
   ;;Back end routes
   (GET "/api/races" [year :as request]
-       (rq/handler request))
+       (rq/query-handler year))
   (GET "/api/riders" request (rider/handler request))
   (GET "/api/user/current" request (auth/current-user-handler request))
   (POST "/api/login" request (auth/login-handler request))

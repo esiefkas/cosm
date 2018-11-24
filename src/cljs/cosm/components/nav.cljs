@@ -63,6 +63,13 @@
                    :on-click (fn [_] (accountant/navigate! "/riders"))}
    "RIDERS"])
 
+(defn schedule-main-menu-button []
+  [ui/flat-button {:style {:color "#FFFFFF"
+                           :height "100%"
+                           :width "100%"}
+                   :on-click (fn [_] (accountant/navigate! "/schedule"))}
+   "SCHEDULE"])
+
 (defonce current-user (atom nil))
 
 (defn get-current-user! []
@@ -170,7 +177,7 @@
            [logo]
            [ui/toolbar-group
             {:style {:width "55%"}}
-            [main-menu-button-ph "SCHEDULE"]
+            [schedule-main-menu-button]
             [main-menu-button-ph "RESULTS"]
             [main-menu-button-ph "CLASSES"]
             [main-menu-button-ph "TRACKS"]

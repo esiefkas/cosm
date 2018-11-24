@@ -68,7 +68,8 @@
               :pretty-print  false}}
             :app
             {:source-paths ["src/cljs" "env/dev/cljs"]
-             :figwheel {:on-jsload "cosm.core/mount-root"}
+             :figwheel {:on-jsload "cosm.core/mount-root"
+                        :websocket-host :js-client-host}
              :compiler
              {:main "cosm.dev"
               :asset-path "/js/out"

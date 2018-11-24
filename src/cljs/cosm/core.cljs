@@ -14,6 +14,7 @@
             [cosm.theme :as theme]
             [cosm.pages.home :as home]
             [cosm.pages.riders :as riders]
+            [cosm.pages.schedule :as schedule]
             [cosm.components.nav :as nav])
   (:import goog.History))
 
@@ -53,6 +54,9 @@
 
 (secretary/defroute "/riders" []
   (reset! page #'riders/page))
+
+(secretary/defroute "/schedule" []
+  (reset! page #'schedule/page))
 ;; -------------------------
 ;; Initialize app
 

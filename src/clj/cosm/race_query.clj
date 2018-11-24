@@ -20,11 +20,14 @@
 (defn get-current-year []
   (+ 1900 (.getYear (java.util.Date.))))
 
-(defn handler [year]
+(defn query-handler [year]
   (println "IN RACE-QUERY HANDLER")
   (let [;;req-year (get-in request [:params :year])
         ;;year (if req-year (Long/parseLong req-year) (get-current-year))
         _ (println "YEAR IS" year)
         races (get-races-for-year (Long/parseLong year))
         _ (println "race count" (count races))]
+    (println "RESULT IS:")
+    (clojure.pprint/pprint races)
     (ring/response races)))
+
