@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/core.async "0.4.474"]
                  [ring-server "0.5.0"]
-                 [reagent "0.7.0"]
+                 [reagent "0.8.1"]
                  [reagent-utils "0.3.1"]
                  [ring "1.6.3"]
                  [ring/ring-defaults "0.3.1"]
@@ -22,9 +22,9 @@
                  [secretary "1.2.3"]
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
-                 [cljs-react-material-ui "0.2.48"]
-                 [cljsjs/react "15.6.1-1"]
-                 [cljsjs/react-dom "15.6.1-1"]
+                 [cljs-material-ui "1.0.01"]
+                 [cljsjs/react "16.3.0-0"]
+                 [cljsjs/react-dom "16.3.0-0"]
                  [buddy/buddy-hashers "1.3.0"]
                  [buddy/buddy-auth "2.1.0"]
                  [clj-time "0.14.4"]
@@ -119,4 +119,4 @@
 
   :repositories {"my.datomic.com" {:url "https://my.datomic.com/repo"
                                    :username "thesiefkas@gmail.com"
-                                   :password "ebc26a82-6ee4-43f2-87cc-6aaf28607d7b"}})
+                                   }})
